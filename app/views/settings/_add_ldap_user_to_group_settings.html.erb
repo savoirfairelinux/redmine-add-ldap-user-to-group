@@ -1,0 +1,13 @@
+<p>
+    Redmine plugin that automatically adds newly logged-in LDAP users to specific group.
+</p>
+
+<p>
+    <%= content_tag(:label, "Group") %>
+    <%= select_tag("settings[group_id]", options_from_collection_for_select(Group.all, :id, :name, @settings[:group_id])) %>
+</p>
+
+<p>
+    <%= content_tag(:label, "LDAP Source") %>
+    <%= select_tag("settings[ldapsource_id]", options_from_collection_for_select(AuthSourceLdap.all, :id, :name, @settings[:ldapsource_id])) %>
+</p>
