@@ -31,10 +31,11 @@ module UserPatch
 
     module ClassMethods
         def try_to_login_with_add_ldap_user_to_group(*args)
-            delta = DateTime.now
+            login, = *args
+            already_exists = User.exists?(:login => login)
             user = self.try_to_login_without_add_ldap_user_to_group(*args)
             return user if (
-                user.created_on < delta or user.nil? or
+                already_exists or user.nil? or
                 user.auth_source.type != 'AuthSourceLdap'
             )
             settings = Setting.plugin_redmine_add_ldap_user_to_group
