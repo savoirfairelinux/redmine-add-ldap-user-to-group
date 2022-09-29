@@ -16,7 +16,7 @@
 #
 
 require 'redmine'
-require 'add_ldap_user_to_group_user'
+#require 'add_ldap_user_to_group_user'
 
 Redmine::Plugin.register :redmine_add_ldap_user_to_group do
 

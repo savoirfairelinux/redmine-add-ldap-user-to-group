@@ -17,14 +17,19 @@
 
 require_dependency 'user'
 
-module UserPatch
+module AddLdapUserToGroupUser
 
     def self.included(base)
         base.extend(ClassMethods)
         base.class_eval do
             unloadable
             class << self
-                alias_method_chain :try_to_login, :add_ldap_user_to_group
+                if Rails::VERSION::MAJOR >= 5
+                    alias_method :try_to_login_without_add_ldap_user_to_group, :try_to_login
+                    alias_method :try_to_login, :try_to_login_with_add_ldap_user_to_group
+                else
+                    alias_method_chain :try_to_login, :add_ldap_user_to_group
+                end
             end
         end
     end
@@ -54,4 +59,4 @@ module UserPatch
 
 end
 
-User.send(:include, UserPatch)
+User.send(:include, AddLdapUserToGroupUser)
